@@ -112,6 +112,20 @@ def build (bld):
         help='the log4cxx configration file',
     )
 
+    bld.add_post_fun(post)
+
+def post(bld):
+    if bld.cmd == "install":
+        dir =  "%s/ndns" %(bld.env['SYSCONFDIR'])
+        print "====================== Manually Configuration ======================"
+        print " 1) create validator configuration based on %s/validator.conf.sample: " %(dir)
+        print "        e.g.: cp %s/validator.conf.sample %s/validator.conf" %(dir, dir)
+        print " 2) download root certificate of NDN Testbed to %s/anchors/root.cert" %(dir)
+        print "        e.g.: wget http://named-data.net/ndnsec/ndn-testbed-root.ndncert.base64 -O %s/anchors/root.cert" %(dir)
+        print " 3) (optional): create log configuration based %s/log4cxx.properties.sample" %(dir)
+        print "        e.g.: cp %s/log4cxx.properties.sample %s/log4cxx.properties" %(dir, dir)
+        print "===================================================================="
+
 def docs(bld):
     from waflib import Options
     Options.commands = ['doxygen', 'sphinx'] + Options.commands
